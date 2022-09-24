@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <SlideList />
+    <CardList />
   </div>
 </template>
 
 <script>
-import SlideList from "@/components/SlideList.vue";
+import CardList from "@/components/CardList.vue";
 
 export default {
-  name: "Home",
+  name: "HomeView",
   components: {
-    SlideList,
+    CardList,
   },
 };
 </script>
