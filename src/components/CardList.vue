@@ -12,6 +12,7 @@
           <h1 class="load-info__text">Loading...</h1>
         </div>
         <div
+          @click="currentPlotId = item.id"
           v-else
           v-for="item in products"
           v-bind:key="item.id"
@@ -19,11 +20,10 @@
         >
           <h1 class="card-list__heading">{{ item.title }}</h1>
           <p class="card-list__text">{{ item.description }}</p>
-          <!-- кажное линка передает query параметр в productcard, который подстовляется в axios get -->
         </div>
       </div>
     </div>
-    <ProductCard productsInfo="this.ProductCard" />
+    <ProductCard :products-info="currentPlot.products" />
   </div>
 </template>
 <script>
@@ -36,10 +36,18 @@ export default {
   },
   data() {
     return {
-      products: {},
+      products: [],
       loading: true,
       errored: false,
+      currentPlotId: 2,
     };
+  },
+  computed: {
+    currentPlot() {
+      return (
+        this.products.find((product) => product.id === this.currentPlotId) || {}
+      );
+    },
   },
   created() {
     this.getData();
@@ -49,8 +57,7 @@ export default {
       axios
         .get("api/plots")
         .then((res) => {
-          this.products = res.data["hydra:member"];
-          // console.log(this.products);
+          this.products = res.data["hydra:member"] || [];
         })
         .catch((error) => {
           console.log(error);

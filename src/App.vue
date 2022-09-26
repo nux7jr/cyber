@@ -101,10 +101,8 @@
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #000000;
   padding: 15px;
-  background-color: #f5f5f5;
-  height: calc(100vh - 30px);
 }
 nav {
   display: flex;

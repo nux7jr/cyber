@@ -1,11 +1,7 @@
 <template>
   <div class="card">
-    <div v-if="errored">Error</div>
-    <div v-else class="card__wrapper">
-      <div class="load-info" v-if="loading">
-        <h1 class="load-info__text">Loading...</h1>
-      </div>
-      <section v-else class="card__item">
+    <div class="card__wrapper">
+      <section class="card__item">
         <h3 class="card__heading">Продукция</h3>
         <div v-for="item in productsInfo" v-bind:key="item.id" class="product">
           <p class="product__item product__heading product__name">
@@ -33,33 +29,12 @@
 </template>
 
 <script>
-import axios from "@/axios/axios.js";
 export default {
   name: "ProductCard",
-  data() {
-    return {
-      productsInfo: {},
-      loading: false,
-      errored: false,
-      plotsNumber: 2,
-    };
-  },
-  created() {
-    this.getProductInfo();
-  },
-  methods: {
-    getProductInfo() {
-      axios
-        .get("api/plots/2")
-        .then((res) => {
-          this.productsInfo = res.data.products;
-          console.log(this.productsInfo);
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errored = true;
-        })
-        .finally(() => (this.loading = false));
+  props: {
+    productsInfo: {
+      default: () => [],
+      type: Array,
     },
   },
 };
@@ -128,6 +103,7 @@ export default {
 .product__smalltext {
   color: rgb(156, 147, 147);
 }
+
 .second_rows {
   background-color: #e6e0e0;
   display: flex;
