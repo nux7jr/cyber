@@ -33,7 +33,7 @@
 
 <script>
 import axios from "@/axios/axios.js";
-import HandBookCard from "@/components/HandBooksCard.vue";
+import HandBookCard from "@/components/cards/HandBooksCard.vue";
 export default {
   name: "HandbookView",
   components: {

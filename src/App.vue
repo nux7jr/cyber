@@ -131,6 +131,7 @@ nav {
   color: rgb(71, 68, 68);
   margin: 0;
   font-size: small;
+  font-style: normal;
 }
 .nav__img {
   height: 16px;

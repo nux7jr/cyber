@@ -105,7 +105,7 @@ export default {
 }
 
 .second_rows {
-  background-color: #e6e0e0;
+  background-color: #f6f6f6;
   display: flex;
   gap: 5px;
   flex-direction: column;

@@ -2,15 +2,22 @@
   <div class="contacts">
     <h1 class="contacts__heading">Контакты</h1>
     <PhoneInfo />
+    <EmailInfo />
+    <AddressInfo />
   </div>
 </template>
 
 <script scoped>
 import PhoneInfo from "@/components/contacts/PhoneInfo.vue";
+import EmailInfo from "@/components/contacts/EmailInfo.vue";
+import AddressInfo from "@/components/contacts/AddressInfo.vue";
+
 export default {
   name: "ContactsView",
   components: {
     PhoneInfo,
+    EmailInfo,
+    AddressInfo,
   },
 };
 </script>
@@ -19,25 +26,7 @@ export default {
 .contacts__heading {
   margin: 10px 0 0 0;
 }
-.contacts__item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  gap: 35px;
-}
-.contacts-info:first-child {
-  margin-top: 20px;
-}
-.contacts-info:last-child {
+.contacts:last-child {
   margin-bottom: 80px;
-}
-.contacts-info__wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-
-  border: 2px solid #f6f6f6;
-  border-radius: 12px;
 }
 </style>

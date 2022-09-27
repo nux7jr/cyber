@@ -1,25 +1,22 @@
 <template>
-  <div class="phone">
+  <div class="email">
     <section class="error" v-if="errored">
       <p class="error__text">
         We're sorry, we're not able to retrieve this information at the moment,
         please try back later
       </p>
     </section>
-    <section class="phone__item" v-else>
+    <section class="email__item" v-else>
       <div class="load-info" v-if="loading">
         <p class="load-info__text">Loading...</p>
       </div>
 
-      <div class="phone-info" v-else>
-        <div class="phone-info__wrapper">
-          <p class="phone-info__heading">Приемная</p>
-          <p class="phone-info__text">{{ phoneInfo.value }}</p>
+      <div class="email-info" v-else>
+        <div class="email-info__wrapper">
+          <p class="email-info__heading">Электронная почта</p>
+          <p class="email-info__text">{{ emailInfo.value }}</p>
         </div>
-        <a
-          class="phone-info__link"
-          :href="`wtai://wp/mc;${phoneInfo.value}`"
-        ></a>
+        <a class="email-info__link" :href="`mailto: ${emailInfo.value}`"></a>
       </div>
     </section>
   </div>
@@ -28,23 +25,23 @@
 <script>
 import axios from "@/axios/axios.js";
 export default {
-  name: "PhoneInfo",
+  name: "EmailInfo",
   data() {
     return {
-      phoneInfo: {},
+      emailInfo: {},
       loading: true,
       errored: false,
     };
   },
   created() {
-    this.getPhoneInfo();
+    this.getEmailInfo();
   },
   methods: {
-    getPhoneInfo() {
+    getEmailInfo() {
       axios
-        .get("api/key_values/1")
+        .get("api/key_values/2")
         .then((res) => {
-          this.phoneInfo = res.data;
+          this.emailInfo = res.data;
         })
         .catch((error) => {
           this.errored = true;
@@ -56,29 +53,29 @@ export default {
 </script>
 
 <style scoped>
-.phone {
+.email {
   border: 2px solid #f6f6f6;
   border-radius: 12px;
   margin-top: 20px;
 }
-.phone-info {
+.email-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.phone-info__wrapper {
+.email-info__wrapper {
   margin-left: 10px;
 }
-.phone-info__heading {
+.email-info__heading {
   color: #828991;
 }
-.phone-info__text {
+.email-info__text {
   font-weight: bold;
 }
-.phone-info__link {
+.email-info__link {
   display: block;
   background-color: #ffbe37;
-  background-image: url(../../assets/callbtn.png);
+  background-image: url(../../assets/emailbtn.png);
   background-repeat: no-repeat;
   height: 44px;
   width: 44px;

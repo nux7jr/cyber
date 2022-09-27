@@ -10,7 +10,7 @@
       <div class="load-info" v-if="loading">
         <p class="load-info__text">Loading image...</p>
       </div>
-      <div class="handBookCard__img">
+      <div v-else class="handBookCard__img">
         <img
           :src="`https://sibcoalapi.jslab.ru/${currBookInfo.path}`"
           alt="handbook image"
@@ -54,4 +54,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.load-info__text {
+  margin: 10px;
+}
+</style>

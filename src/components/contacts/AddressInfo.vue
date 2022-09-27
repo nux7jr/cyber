@@ -1,25 +1,26 @@
 <template>
-  <div class="phone">
+  <div class="address">
     <section class="error" v-if="errored">
       <p class="error__text">
         We're sorry, we're not able to retrieve this information at the moment,
         please try back later
       </p>
     </section>
-    <section class="phone__item" v-else>
+    <section class="address__item" v-else>
       <div class="load-info" v-if="loading">
         <p class="load-info__text">Loading...</p>
       </div>
 
-      <div class="phone-info" v-else>
-        <div class="phone-info__wrapper">
-          <p class="phone-info__heading">Приемная</p>
-          <p class="phone-info__text">{{ phoneInfo.value }}</p>
+      <div class="address-info" v-else>
+        <div class="address-info__wrapper">
+          <p class="address-info__heading">Адрес офиса</p>
+          <p class="address-info__text">{{ addressInfo.value }}</p>
+          <a
+            class="address-info__link"
+            href="https://goo.gl/maps/MmQ7PWLi7uxM1p8p9"
+            >Открыть в навигаторе</a
+          >
         </div>
-        <a
-          class="phone-info__link"
-          :href="`wtai://wp/mc;${phoneInfo.value}`"
-        ></a>
       </div>
     </section>
   </div>
@@ -28,23 +29,23 @@
 <script>
 import axios from "@/axios/axios.js";
 export default {
-  name: "PhoneInfo",
+  name: "AddressInfo",
   data() {
     return {
-      phoneInfo: {},
+      addressInfo: {},
       loading: true,
       errored: false,
     };
   },
   created() {
-    this.getPhoneInfo();
+    this.getAddressInfo();
   },
   methods: {
-    getPhoneInfo() {
+    getAddressInfo() {
       axios
-        .get("api/key_values/1")
+        .get("api/key_values/3")
         .then((res) => {
-          this.phoneInfo = res.data;
+          this.addressInfo = res.data;
         })
         .catch((error) => {
           this.errored = true;
@@ -56,34 +57,38 @@ export default {
 </script>
 
 <style scoped>
-.phone {
+.address {
   border: 2px solid #f6f6f6;
   border-radius: 12px;
   margin-top: 20px;
 }
-.phone-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.phone-info__wrapper {
+.address-info__wrapper > p {
   margin-left: 10px;
 }
-.phone-info__heading {
+.address-info__heading {
   color: #828991;
 }
-.phone-info__text {
+.address-info__text {
   font-weight: bold;
+  margin: 10px 10px 10px 0;
 }
-.phone-info__link {
-  display: block;
+.address-info__link {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 12px;
+  margin: 15px 10px 10px 10px;
+
+  color: #18222c;
+
   background-color: #ffbe37;
-  background-image: url(../../assets/callbtn.png);
-  background-repeat: no-repeat;
-  height: 44px;
-  width: 44px;
-  margin-right: 10px;
   border-radius: 18px;
+  font-weight: bold;
+  font-size: 16px;
+}
+.address-info__link:visited {
+  color: #18222c;
 }
 .error__text {
   margin: 5px;
