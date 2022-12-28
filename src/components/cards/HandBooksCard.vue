@@ -45,6 +45,8 @@ export default {
           this.currBookInfo = res.data;
         })
         .catch((error) => {
+          // console.log("props", this.HandBookCardInfo);
+
           console.log(error);
           this.errored = true;
         })

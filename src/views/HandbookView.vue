@@ -52,7 +52,7 @@ export default {
   methods: {
     getReferenceBooks() {
       axios
-        .get("/api/reference_books/")
+        .get("api/reference_books/")
         .then((res) => {
           this.referenceBooksInfo = res.data["hydra:member"];
         })

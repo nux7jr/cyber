@@ -95,7 +95,93 @@
     <router-view />
   </div>
 </template>
+<script>
+import axios from "@/axios/axios.js";
+export default {
+  name: "ContactsView",
+  components: {},
+  created() {
+    this.webSocket;
+  },
+  methods: {
+    webSocket() {
+      function processPush(message) {
+        var data = message["type"];
+        if (data["type"] == "hash") {
+          // ТУТ НУЖНО открыть статью. идентификатор тут data['id']
+          alert(data["id"]);
+          // console.log(message, message["type"], message["id"]);
+        }
+      }
 
+      function processToken(token) {
+        console.log("делаю запрос к вс");
+        // Делаем запрос на отправку токена бэку, чтобы он смог отправлять пуши данному пользователю
+        axios(
+          // "/index.php?route=api/firebase/setToken&api_token=6531f8ba",
+          "api/token",
+          { token: token },
+          function (_result) {
+            // console.log(_result, token);
+          }
+        );
+      }
+      function initFirbase() {
+        (async function () {
+          // window._firebaseExists - ключ, который может появиться на странице в самом начале, если он есть - api firebase может появиться (оно появляетя асинхронно, и мы ждем его через setTimeout, а данный ключ нужен для оптимизации, чтобы js не работал вхолостую, если запрос не из приложения)
+          if (!window._firebaseExists) {
+            // Зашли не из приложения - ничего не делаем
+            return;
+          }
+          function sleepPromise(ms) {
+            return new Promise((r) => {
+              setTimeout(r, ms);
+            });
+          }
+          function waitFirebase(total, interval) {
+            return new Promise(async (res, rej) => {
+              while (true) {
+                // По хорошему - желательно, сначала проверить наличие в циклие, только потом - спать или реджектить.
+                // Спим interval ms
+                await sleepPromise(interval);
+                // Проверяем - появилось ли firebase
+                if (typeof Firebase !== "undefined") {
+                  // Появилось
+                  return res();
+                }
+                // Отнимаем от общего ожидаемого времени, если время истекло - возвращаем reject, иначе - еще 1 итерация
+                total -= interval;
+                if (total < 0) {
+                  return rej();
+                }
+              }
+            });
+          }
+          try {
+            // Ожидаем готовности api (2 секунды, с проверкой наличия, каждую секунду, потом, можно поднастроить)
+            await waitFirebase(1000 * 2, 1000);
+            console.log("Firebase ready!");
+            console.log(waitFirebase);
+          } catch (e) {
+            // Не дождались api. Практически - такого не может быть, теоретически - возможно.
+            console.log("Firebase wait timeouted!");
+            return;
+          }
+          try {
+            await Firebase.requestUserPermission();
+          } catch (e) {
+            return;
+          }
+          Firebase.getToken().then(processToken);
+          Firebase.onTokenRefresh(processToken);
+          Firebase.onMessage(processPush);
+        })();
+      }
+      initFirbase();
+    },
+  },
+};
+</script>
 <style>
 #app {
   font-family: "Roboto", sans-serif;

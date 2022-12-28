@@ -20,6 +20,10 @@
             type="file"
             name="resume"
             ref="file"
+            accept="application/msword, application/vnd.ms-excel, 
+            application/vnd.ms-powerpoint,
+            text/plain, 
+            application/pdf"
             v-on:change="handleFileUpload()"
           />
           <div class="file">
