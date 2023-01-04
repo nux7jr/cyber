@@ -101,25 +101,24 @@ export default {
   name: "ContactsView",
   components: {},
   created() {
-    this.webSocket;
+    this.webSocket();
   },
   methods: {
     webSocket() {
       function processPush(message) {
+        alert(message);
+        console.log(message);
         var data = message["type"];
         if (data["type"] == "hash") {
+          alert(data);
           // ТУТ НУЖНО открыть статью. идентификатор тут data['id']
-          alert(data["id"]);
           // console.log(message, message["type"], message["id"]);
         }
       }
-
       function processToken(token) {
-        console.log("делаю запрос к вс");
         // Делаем запрос на отправку токена бэку, чтобы он смог отправлять пуши данному пользователю
-        axios(
-          // "/index.php?route=api/firebase/setToken&api_token=6531f8ba",
-          "api/token",
+        axios.post(
+          "api/cloud_messagings",
           { token: token },
           function (_result) {
             // console.log(_result, token);
@@ -128,7 +127,9 @@ export default {
       }
       function initFirbase() {
         (async function () {
-          // window._firebaseExists - ключ, который может появиться на странице в самом начале, если он есть - api firebase может появиться (оно появляетя асинхронно, и мы ждем его через setTimeout, а данный ключ нужен для оптимизации, чтобы js не работал вхолостую, если запрос не из приложения)
+          // window._firebaseExists - ключ, который может появиться на странице в самом
+          // начале, если он есть - api firebase может появиться (оно появляетя асинхронно, и мы ждем его через setTimeout,
+          // а данный ключ нужен для оптимизации, чтобы js не работал вхолостую, если запрос не из приложения)
           if (!window._firebaseExists) {
             // Зашли не из приложения - ничего не делаем
             return;
